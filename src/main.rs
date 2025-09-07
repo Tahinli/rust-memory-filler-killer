@@ -31,7 +31,7 @@ fn find_memory_filler(system: &mut System, input: &Input) -> Option<Pid> {
     };
     if (used_memory / total_memory) >= input.kill_threshold {
         let mut memory_filler = system.process(Pid::from_u32(1)).unwrap();
-        for (_, process) in system.processes() {
+        for process in system.processes().values() {
             if process.memory() > memory_filler.memory() {
                 memory_filler = process;
             }
@@ -77,15 +77,9 @@ fn get_parameters() -> Input {
         |env_value: Option<String>| env_value.map(|env_value| env_value.parse::<bool>());
     let parse_env_value_between_zero_and_one = |env_value: Option<String>| {
         env_value.map(|env_value| {
-            env_value.parse::<f64>().map(|parsed_value| {
-                if parsed_value > 1.0 {
-                    return 1.0;
-                } else if parsed_value < 0.0 {
-                    return 0.0;
-                } else {
-                    parsed_value
-                }
-            })
+            env_value
+                .parse::<f64>()
+                .map(|parsed_value| parsed_value.clamp(0.0, 1.0))
         })
     };
     for (i, env_value) in env_values.iter().enumerate() {
