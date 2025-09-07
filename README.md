@@ -1,3 +1,5 @@
+[![Rust](https://github.com/Tahinli/rust-memory-filler-killer/actions/workflows/rust.yml/badge.svg?branch=main)](https://github.com/Tahinli/rust-memory-filler-killer/actions/workflows/rust.yml)
+
 # rust-memory-filler-killer
 Finds and Kills Memory Filler
 
